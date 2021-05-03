@@ -1,5 +1,5 @@
 # BMW Lease Lense
-![cover](https://github.com/p0fi/bmw-leaselense-for-scribtable/blob/main/cover.png)
+![cover](https://github.com/p0fi/bmw-leaselense-for-scriptable/blob/main/cover.png)
 
 Note: This script requires at least [Scriptable](https://scriptable.app/) version 1.6!
 
