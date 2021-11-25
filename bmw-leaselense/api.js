@@ -4,15 +4,26 @@ const utils = importModule('utils');
 const URL = `https://customer.bmwgroup.com/webapi/v1/user/vehicles/`;
 const VEHICLE_URL = `https://cocoapi.bmwgroup.com/eadrax-vcs/v1/vehicles`;
 
-module.exports.fetchVehicleImage = async function () {
+module.exports.fetchVehicleImage = async function (angle) {
   console.log('fetching vehicle image...');
 
-  let req = new Request(`${URL}/${configuration.VIN}/image?view=side&width=250`);
-  const access_token = await getAPIToken();
-  req.headers = { Authorization: `Bearer ${access_token}` };
+  let fm = FileManager.iCloud();
+  let dir = fm.documentsDirectory();
+  let path = fm.joinPath(dir, 'bmw-leaselense/assets/car.jpg');
+  if (fm.fileExists(path)) {
+    console.log(`...using cached image at ${path}`);
+    return fm.readImage(path);
+  } else {
+    console.log(`...Sorry, couldn't find image – downloading`);
+    // download once
+    let req = new Request(`${URL}/${configuration.VIN}/image?view=side&width=250`);
+    const access_token = await getAPIToken();
+    req.headers = { Authorization: `Bearer ${access_token}` };
 
-  let resp = await req.loadImage();
-  return resp;
+    let resp = await req.loadImage();
+    fm.writeImage(path, resp);
+    return resp;
+  }
 };
 
 module.exports.fetchVehicleData = async function () {
@@ -82,7 +93,11 @@ async function requestAPIToken() {
   };
   req.body = data;
 
+  console.log(data);
+  console.log(req);
+
   let resp = await req.loadJSON();
+  console.log(resp);
 
   // Making sure the response has what we need
   if (!resp['access_token']) return false;
