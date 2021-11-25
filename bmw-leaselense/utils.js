@@ -2,7 +2,7 @@ const configuration = importModule('config');
 
 module.exports.computeMileageLevel = function (currentMileage) {
   const totalMileage =
-    configuration.LEASING_DURATION * configuration.KILOMETER_PER_YEAR + configuration.FAIRNESS_KILOMETER;
+    configuration.LEASING_DURATION * configuration.KILOMETER_PER_YEAR + configuration.FAIRNESS_KILOMETER + configuration.START_KILOMETER;
   const startDate = new Date(configuration.LEASING_START_DATE);
   const endDate = new Date(+startDate);
   endDate.setFullYear(startDate.getFullYear() + configuration.LEASING_DURATION);
@@ -15,8 +15,8 @@ module.exports.computeMileageLevel = function (currentMileage) {
 
   const result = {
     total: totalMileage,
-    withinLimit: kilometersOK > currentMileage ? true : false,
-    difference: currentMileage - kilometersOK,
+    withinLimit: kilometersOK > currentMileage - configuration.START_KILOMETER ? true : false,
+    difference: currentMileage - configuration.START_KILOMETER - kilometersOK,
     current: currentMileage,
   };
   return result;

@@ -10,6 +10,7 @@ module.exports = {
   VIN: '',
   LEASING_START_DATE: '', // MM/DD/YYYY
   LEASING_DURATION: 3, // years
+  START_KILOMETER: 0, // km
   KILOMETER_PER_YEAR: 10000, // km
   FAIRNESS_KILOMETER: 2500, // km
   COST_PER_KILOMETER: 0.06,
