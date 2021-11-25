@@ -2,6 +2,7 @@ const configuration = importModule('config');
 const utils = importModule('utils');
 
 const URL = `https://customer.bmwgroup.com/webapi/v1/user/vehicles/`;
+const VEHICLE_URL = `https://cocoapi.bmwgroup.com/eadrax-vcs/v1/vehicles`;
 
 module.exports.fetchVehicleImage = async function () {
   console.log('fetching vehicle image...');
@@ -17,15 +18,26 @@ module.exports.fetchVehicleImage = async function () {
 module.exports.fetchVehicleData = async function () {
   console.log('fetching vehicle data...');
 
-  let req = new Request(`${URL}/${configuration.VIN}/status?offset=-60`);
+  const now = new Date();
+  const secondsSinceEpoch = Math.round(now.getTime() / 1000);
+
+  let req = new Request(`${VEHICLE_URL}?apptimezone=-2&appDateTime=${secondsSinceEpoch}&tireGuardMode=ENABLED`);
   const access_token = await getAPIToken();
-  req.headers = { Authorization: `Bearer ${access_token}` };
+  req.headers = {
+    Authorization: `Bearer ${access_token}`,
+    'x-user-agent': `android(v1.07_20200330);bmw;1.5.2(8932)`,
+  };
 
   let resp = await req.loadJSON();
+
+  const vehicle = resp.find((obj) => {
+    return obj.vin === configuration.VIN;
+  });
+
   return {
-    mileage: parseInt(resp.vehicleStatus.mileage),
-    remainingRange: resp.vehicleStatus.remainingRangeFuel,
-    updated: resp.vehicleStatus.updateTime,
+    mileage: parseInt(vehicle.status.currentMileage.mileage),
+    remainingRange: vehicle.properties.combustionRange.distance.value,
+    updated: vehicle.status.lastUpdatedAt,
   };
 };
 
