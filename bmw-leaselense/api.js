@@ -36,9 +36,8 @@ module.exports.fetchVehicleData = async function () {
   const access_token = await getAPIToken();
   req.headers = {
     Authorization: `Bearer ${access_token}`,
-    'x-user-agent': `android(v1.07_20200330);bmw;1.5.2(8932)`,
+    'x-user-agent': `android(SP1A.210812.016.C1);bmw;2.5.2(14945);emea`,
   };
-
   let resp = await req.loadJSON();
 
   const vehicle = resp.find((obj) => {
