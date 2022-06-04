@@ -28,6 +28,7 @@ iCloud Drive/
 │  ├─ bmw-leaselense/
 │  │  ├─ assets/
 │  │  │  ├─ fuel.png
+│  │  │  ├─ mileage.png
 │  │  ├─ api.js
 │  │  ├─ utils.js
 │  │  ├─ config.js
