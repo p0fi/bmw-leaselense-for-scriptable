@@ -41,7 +41,7 @@ async function createWidget(size) {
   } else if (size == 'medium') {
     const car = await api.fetchVehicleImage();
     const mileage = utils.computeMileageLevel(data.mileage);
-
+    
     const contentStack = widget.addStack();
     contentStack.layoutHorizontally();
     contentStack.addImage(car);
@@ -76,11 +76,11 @@ async function createWidget(size) {
       costStack.addSpacer();
     }
 
-    const milageIcon = mileageStack.addImage(SFSymbol.named('speedometer').image);
-    milageIcon.imageSize = new Size(14, 14);
+    const milageIcon = mileageStack.addImage(await utils.getAsset('mileage.png'));
+    milageIcon.imageSize = new Size(15, 15);
     milageIcon.tintColor = colors.textColor;
 
-    mileageStack.addSpacer(10);
+    mileageStack.addSpacer(5);
 
     const mileageText = mileageStack.addText(
       `${mileage.current.toLocaleString()} / ${mileage.total.toLocaleString()} km`
@@ -97,10 +97,10 @@ async function createWidget(size) {
     rangeStack.layoutHorizontally();
 
     const rangeimg = rangeStack.addImage(await utils.getAsset('fuel.png'));
-    rangeimg.imageSize = new Size(13, 13);
+    rangeimg.imageSize = new Size(15, 15);
     rangeimg.tintColor = colors.rangeColor;
 
-    rangeStack.addSpacer(10);
+    rangeStack.addSpacer(5);
 
     const rangeText = rangeStack.addText(`${data.remainingRange} km`);
     rangeText.font = Font.regularMonospacedSystemFont(12);
@@ -111,12 +111,12 @@ async function createWidget(size) {
     const updateStack = widget.addStack();
     updateStack.addSpacer();
 
-    const updateImg = SFSymbol.named('arrow.clockwise').image;
+    const updateImg = SFSymbol.named('arrow.triangle.2.circlepath').image;
     const updateIcon = updateStack.addImage(updateImg);
-    updateIcon.imageSize = new Size(9, 9);
+    updateIcon.imageSize = new Size(11, 11);
     updateIcon.tintColor = colors.textColor;
 
-    updateStack.addSpacer(5);
+    updateStack.addSpacer(3);
 
     const updated = new Date(data.updated);
     const updateText = updateStack.addText(`${updated.toLocaleString()}`);
