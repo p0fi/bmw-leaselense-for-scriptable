@@ -85,9 +85,6 @@ async function requestAPIToken() {
   };
   req.body = data;
 
-  console.log(data);
-  console.log(req);
-
   let resp = await req.loadJSON();
   console.log(resp);
 
