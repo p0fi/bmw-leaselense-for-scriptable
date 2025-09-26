@@ -1,6 +1,5 @@
 name: ⚠️ Error report
 description: Create a report to help us improve
-type: bug
 body:
   - type: markdown
     attributes:
