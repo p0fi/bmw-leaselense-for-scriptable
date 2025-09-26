@@ -37,9 +37,9 @@ body:
       description: Select the target audience for the proposed content.
       multiple: true
       options:
-        - Spec Developers/Reviewers
-        - Device Developers
-        - General Public
+        - label: Spec Developers/Reviewers
+        - label: Device Developers
+        - label: General Public
     validations:
       required: true
 
